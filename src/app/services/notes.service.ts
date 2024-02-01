@@ -20,4 +20,9 @@ export class NotesService {
     this.notes.push(note);
     this.notesSubject.next(this.notes)
   }
+
+  deleteNote(id: number): void{
+    this.notes = this.notes.filter(note => note.id !== id)
+    this.notesSubject.next(this.notes) // to update the notes for all hierarchy
+  }
 }
