@@ -36,4 +36,11 @@ export class NotesService {
     return this.isEdit.asObservable()
   }
 
+  updateNote(updatedNote: Note): void{
+    const index = this.notes.findIndex(note => note.id === updatedNote.id);
+    if (index !== -1) {
+      this.notes[index] = updatedNote;
+      this.notesSubject.next(this.notes);
+    }
+  }
 }

@@ -9,7 +9,6 @@ import { NotesService } from 'src/app/services/notes.service';
 })
 export class NoteListComponent implements OnInit {
   notes: Note[] = [];
-  isEditMode: boolean =  false;
   @Output() selectedNote = new EventEmitter<Note>();
 
   constructor(private notesService: NotesService) { }

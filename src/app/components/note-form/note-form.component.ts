@@ -41,9 +41,15 @@ export class NoteFormComponent implements OnInit, OnChanges {
       return;
     }
     const note: Note = this.noteForm.value;
-    // console.log(note);
+    
+    if (this.isEdit) {
+      this.notesService.updateNote(note);
+      this.notesService.setEditable(false);
+    } else {
+      this.notesService.createNote(note);
+    }
 
-    this.notesService.createNote(note);
+    // console.log(note);
     // this.notesService.getNotesObservable().subscribe((notes: Note[]) => {
     //   console.log(notes)
     // })
