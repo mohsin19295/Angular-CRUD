@@ -7,5 +7,5 @@
         <label for="content">Content:</label>
         <input type="text" id='content' name='content' placeholder='Content' formControlName="content" required>
     </div>
-    <button type='submit'>Add New Note</button>
+    <button type='submit'>{{isEdit ? "Edit Note" : "Add Note"}}</button>
 </form> 

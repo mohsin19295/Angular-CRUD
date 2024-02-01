@@ -8,7 +8,7 @@ import { NotesService } from 'src/app/services/notes.service';
   styleUrls: ['./note-list.component.css']
 })
 export class NoteListComponent implements OnInit {
-  notes: Note[] = []
+  notes: Note[] = [];
 
   constructor(private notesService: NotesService) { }
   
@@ -23,6 +23,6 @@ export class NoteListComponent implements OnInit {
   }
 
   editNote(): void{
-
+    this.notesService.setEditable(true)
   }
 }

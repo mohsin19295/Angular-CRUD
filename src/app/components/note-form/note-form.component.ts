@@ -9,8 +9,13 @@ import { NotesService } from 'src/app/services/notes.service';
   styleUrls: ['./note-form.component.css']
 })
 export class NoteFormComponent implements OnInit {
-  noteForm!: FormGroup
-  constructor(private notesService: NotesService, private formBuilder: FormBuilder){}
+  noteForm!: FormGroup;
+  isEdit!: boolean;
+  constructor(private notesService: NotesService, private formBuilder: FormBuilder) {
+    this.notesService.getEditable().subscribe({
+      next: (response) => (this.isEdit = response)
+    })
+  }
   ngOnInit(): void {
     this.noteForm = this.formBuilder.group({
       id: new Date().getTime(),
@@ -27,9 +32,10 @@ export class NoteFormComponent implements OnInit {
     // console.log(note);
 
     this.notesService.createNote(note);
-    this.notesService.getNotesObservable().subscribe((notes: Note[]) => {
-      console.log(notes)
-    })
+    // this.notesService.getNotesObservable().subscribe((notes: Note[]) => {
+    //   console.log(notes)
+    // })
+    
     this.noteForm.reset();
   }
 }
