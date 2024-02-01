@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Notes } from 'src/app/interfaces/notes';
+import { Note } from 'src/app/interfaces/note';
 import { NotesService } from 'src/app/services/notes.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { NotesService } from 'src/app/services/notes.service';
 })
 export class NoteFormComponent implements OnInit {
   noteForm!: FormGroup
-  constructor(private notesService:NotesService, private formBuilder: FormBuilder){}
+  constructor(private notesService: NotesService, private formBuilder: FormBuilder){}
   ngOnInit(): void {
     this.noteForm = this.formBuilder.group({
       id: new Date().getTime(),
@@ -23,6 +23,13 @@ export class NoteFormComponent implements OnInit {
     if (this.noteForm.invalid) {
       return;
     }
-    console.log(this.noteForm.value)
- }
+    const note: Note = this.noteForm.value;
+    // console.log(note);
+
+    this.notesService.createNote(note);
+    this.notesService.getNotesObservable().subscribe((notes: Note[]) => {
+      console.log(notes)
+    })
+    this.noteForm.reset();
+  }
 }
