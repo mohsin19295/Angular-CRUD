@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Note } from 'src/app/interfaces/note';
 import { NotesService } from 'src/app/services/notes.service';
@@ -8,9 +8,10 @@ import { NotesService } from 'src/app/services/notes.service';
   templateUrl: './note-form.component.html',
   styleUrls: ['./note-form.component.css']
 })
-export class NoteFormComponent implements OnInit {
+export class NoteFormComponent implements OnInit, OnChanges {
   noteForm!: FormGroup;
   isEdit!: boolean;
+  @Input() selectedNote!: Note;
   constructor(private notesService: NotesService, private formBuilder: FormBuilder) {
     this.notesService.getEditable().subscribe({
       next: (response) => (this.isEdit = response)
@@ -24,6 +25,17 @@ export class NoteFormComponent implements OnInit {
     })
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedNote']?.currentValue) {
+      const value = changes['selectedNote']?.currentValue;
+      this.noteForm.patchValue({
+        id: value.id,
+        title: value.title,
+        content: value.content
+      })
+    }
+  }
+
   handleSubmit(): void{
     if (this.noteForm.invalid) {
       return;
@@ -35,7 +47,7 @@ export class NoteFormComponent implements OnInit {
     // this.notesService.getNotesObservable().subscribe((notes: Note[]) => {
     //   console.log(notes)
     // })
-    
+
     this.noteForm.reset();
   }
 }

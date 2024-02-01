@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Note } from 'src/app/interfaces/note';
 import { NotesService } from 'src/app/services/notes.service';
 
@@ -9,6 +9,8 @@ import { NotesService } from 'src/app/services/notes.service';
 })
 export class NoteListComponent implements OnInit {
   notes: Note[] = [];
+  isEditMode: boolean =  false;
+  @Output() selectedNote = new EventEmitter<Note>();
 
   constructor(private notesService: NotesService) { }
   
@@ -22,7 +24,8 @@ export class NoteListComponent implements OnInit {
     this.notesService.deleteNote(id);
   }
 
-  editNote(): void{
+  editNote(note: Note): void{
+    this.selectedNote.emit(note);
     this.notesService.setEditable(true)
   }
 }
